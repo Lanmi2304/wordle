@@ -8,12 +8,9 @@ type RowInfo = {
   guess: string[];
 };
 
-// word.
-
 export function Game() {
   const word = "apple";
   const [matrix, setMatrix] = useState<RowInfo[]>([
-    // ["a", "b", "c", "d", "e"],
     { check: false, guess: [] },
     { check: false, guess: [] },
     { check: false, guess: [] },
@@ -21,7 +18,6 @@ export function Game() {
     { check: false, guess: [] },
   ]);
 
-  //   const [guess, setGuess] = useState("");
   const [activeRow, setActiveRow] = useState(0);
   const [gameOver, setGameOver] = useState(false);
 
@@ -74,24 +70,18 @@ export function Game() {
   useEffect(() => {
     if (window.document && !gameOver) {
       document.addEventListener("keydown", handleKeyDown);
-      //   console.log(matrix[activeRow].guess);
     }
 
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [activeRow, matrix]);
-
-  //   useEffect(() => {}, []);
 
   return (
     <div className="flex flex-col gap-8 justify-center mt-20 items-center w-full">
       <h1>
         Word: <span className="text-purple-300">{word}</span>
       </h1>
-      {/* <h2>Guess: {guess}</h2>a */}
+
       <div className="grid gap-2">
-        {/* {matrix.map((el, idx) => (
-        <div key={idx} className="size-25 bg-white"></div>
-      ))} */}
         {matrix.map((el, idx) => {
           {
             return (
@@ -102,20 +92,29 @@ export function Game() {
                       key={id}
                       className={cn(
                         "bg-gray-600  flex uppercase text-2xl font-extrabold items-center justify-center text-black size-25",
-                        word.includes(el.guess[id]) &&
-                          el.check &&
-                          "bg-yellow-500",
-                        el.guess[id] === word[id] && el.check && "bg-green-700"
+                        (() => {
+                          if (!el.check) return "";
+
+                          const letterCount =
+                            word.split(el.guess[id]).length - 1;
+
+                          const lettersSoFar = el.guess
+                            .slice(0, id + 1)
+                            .filter((letter) => letter === el.guess[id]).length;
+
+                          if (el.guess[id] === word[id]) return "bg-green-700";
+
+                          if (
+                            word.includes(el.guess[id]) &&
+                            lettersSoFar <= letterCount
+                          ) {
+                            return "bg-yellow-500";
+                          }
+                          return "";
+                        })()
                       )}
                     >
-                      <span
-                        className={cn(
-                          "text-white"
-                          //   word.includes(el.guess[id]) && "text-purple-700"
-                        )}
-                      >
-                        {el.guess[id]}
-                      </span>
+                      <span className={cn("text-white")}>{el.guess[id]}</span>
                     </div>
                   );
                 })}
