@@ -9,7 +9,7 @@ type RowInfo = {
 };
 
 export function Game() {
-  const word = "apple";
+  const word = "ninja";
   const [matrix, setMatrix] = useState<RowInfo[]>([
     { check: false, guess: [] },
     { check: false, guess: [] },
@@ -76,10 +76,10 @@ export function Game() {
   }, [activeRow, matrix]);
 
   return (
-    <div className="flex flex-col gap-8 justify-center mt-20 items-center w-full">
-      <h1>
+    <div className="flex flex-col gap-8 justify-center  items-center w-full">
+      {/* <h1>
         Word: <span className="text-purple-300">{word}</span>
-      </h1>
+      </h1> */}
 
       <div className="grid gap-2">
         {matrix.map((el, idx) => {
@@ -91,30 +91,32 @@ export function Game() {
                     <div
                       key={id}
                       className={cn(
-                        "bg-gray-600  flex uppercase text-2xl font-extrabold items-center justify-center text-black size-25",
+                        "bg-white  border-2 flex uppercase text-2xl font-extrabold items-center justify-center text-black size-25",
                         (() => {
                           if (!el.check) return "";
 
                           const letterCount =
                             word.split(el.guess[id]).length - 1;
+                          console.log(letterCount);
 
                           const lettersSoFar = el.guess
-                            .slice(0, id + 1)
+                            .slice(0, 5)
                             .filter((letter) => letter === el.guess[id]).length;
 
-                          if (el.guess[id] === word[id]) return "bg-green-700";
+                          if (el.guess[id] === word[id]) return "bg-green-400";
 
                           if (
                             word.includes(el.guess[id]) &&
-                            lettersSoFar <= letterCount
+                            lettersSoFar <= letterCount &&
+                            el.guess[id] !== word[id]
                           ) {
-                            return "bg-yellow-500";
+                            return "bg-amber-500";
                           }
                           return "";
                         })()
                       )}
                     >
-                      <span className={cn("text-white")}>{el.guess[id]}</span>
+                      <span className={cn("text-black")}>{el.guess[id]}</span>
                     </div>
                   );
                 })}
