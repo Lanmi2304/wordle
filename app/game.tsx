@@ -103,18 +103,6 @@ export function Game() {
 
   return (
     <div className="relative -top-10 flex flex-col gap-4 lg:top-0">
-      <input
-        ref={inputRef}
-        type="text"
-        inputMode="text"
-        autoFocus
-        className="pointer-events-none absolute opacity-0"
-        onKeyDown={(e) => {
-          handleKeyDown(e);
-        }}
-        onBlur={(e) => e.target.focus()}
-      />
-
       <div className="relative flex w-full items-center justify-between">
         <h1 className="flex items-center gap-2 text-left text-6xl font-extralight">
           Wordle <span className="text-3xl">🧩📘</span>{" "}
@@ -129,11 +117,26 @@ export function Game() {
       </div>
 
       <div
-        className="flex w-full flex-col items-center justify-center gap-8"
+        className="relative flex w-full flex-col items-center justify-center gap-8"
         onClick={() => {
           inputRef.current?.focus();
         }}
       >
+        <input
+          ref={inputRef}
+          type="text"
+          inputMode="text"
+          autoFocus
+          className="absolute opacity-0"
+          onKeyDown={(e) => {
+            handleKeyDown(e);
+          }}
+          onFocus={() => {
+            console.log("ok");
+          }}
+          // onBlur={(e) => e.target.focus()}
+        />
+
         <div className="grid gap-2">
           {matrix.map((el, idx) => {
             {
