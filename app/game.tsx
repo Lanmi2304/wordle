@@ -1,5 +1,6 @@
 "use client";
 
+import { Rules } from "@/components/rules";
 import { cn } from "@/utils/cn";
 import { words } from "@/utils/wordd-list";
 import { useEffect, useState } from "react";
@@ -18,6 +19,7 @@ export function Game() {
     { check: false, guess: [] },
     { check: false, guess: [] },
     { check: false, guess: [] },
+    { check: false, guess: [] },
   ]);
 
   const [activeRow, setActiveRow] = useState(0);
@@ -30,7 +32,6 @@ export function Game() {
 
   const isCorrectHandler = () => {
     if (matrix[activeRow].guess.join("") === word) {
-      // alert("You won!");
       setGameOver(true);
       return;
     }
@@ -50,6 +51,12 @@ export function Game() {
           return newMatrix;
         });
         setActiveRow((prev) => prev + 1);
+      }
+
+      if (activeRow === 4 && matrix[activeRow].guess.join("") !== word) {
+        setGameOver(true);
+        alert("Game over");
+        return;
       }
       return;
     }
@@ -87,51 +94,72 @@ export function Game() {
   }, [activeRow, matrix]);
 
   return (
-    <div className="flex flex-col gap-8 justify-center  items-center w-full">
-      <div className="grid gap-2">
-        {matrix.map((el, idx) => {
-          {
-            return (
-              <div key={idx} className="flex gap-2">
-                {Array.from({ length: 5 }, (_, id) => {
-                  return (
-                    <div
-                      key={id}
-                      className={cn(
-                        "rounded-xl bg-[linear-gradient(170deg,_rgba(17,17,17,1)_0%,_rgba(59,59,59,1)_30%,_rgba(59,59,59,1)_70%,_rgba(17,17,17,1)_100%)] shadow-[inset_0px_4px_0px_0px_rgba(255,_255,_255,_0.190)] flex uppercase text-2xl font-extrabold items-center justify-center size-25",
-                        (() => {
-                          if (!el.check) return "";
+    <div className="flex flex-col gap-4">
+      <div className="relative flex w-full items-center justify-between">
+        <h1 className="flex items-center gap-2 text-left text-6xl font-extralight">
+          Wordle <span className="text-3xl">🧩📘</span>{" "}
+        </h1>
+        <Rules />
+      </div>
 
-                          const letterCount =
-                            word.split(el.guess[id]).length - 1;
+      <div className="">
+        <p>Can you crack the word in six tries? 🤔</p>
+        <p>Give it a shot!</p>
+        <p>Start typing!👨🏼‍💻</p>
+      </div>
 
-                          const lettersSoFar = el.guess
-                            .slice(0, id + 1)
-                            .filter((letter) => letter === el.guess[id]).length;
+      <div className="flex w-full flex-col items-center justify-center gap-8">
+        <div className="grid gap-2">
+          {matrix.map((el, idx) => {
+            {
+              return (
+                <div key={idx} className="flex gap-2">
+                  {Array.from({ length: 5 }, (_, id) => {
+                    return (
+                      <div
+                        key={id}
+                        className={cn(
+                          "flex size-16 items-center justify-center rounded-xl bg-[#1b1b1b] text-2xl font-extrabold uppercase lg:size-20",
+                          !el.check &&
+                            "shadow-[inset_0px_3px_0px_0px_rgba(0,_0,_0,_1)]",
+                          el.check &&
+                            "bg-[linear-gradient(170deg,_rgba(17,17,17,1)_0%,_rgba(59,59,59,1)_30%,_rgba(59,59,59,1)_70%,_rgba(17,17,17,1)_100%)] shadow-[inset_0px_4px_0px_0px_rgba(255,_255,_255,_0.190)]",
+                          (() => {
+                            if (!el.check) return "";
 
-                          if (
-                            word.includes(el.guess[id]) &&
-                            lettersSoFar <= letterCount &&
-                            el.guess[id] !== word[id]
-                          ) {
-                            return "bg-[linear-gradient(170deg,rgba(243,155,7,1)_0%,_rgba(234,107,18,1)_30%,_rgba(234,107,18,1)_67%,_rgba(243,155,7,1)_100%)]";
-                          }
+                            const letterCount =
+                              word.split(el.guess[id]).length - 1;
 
-                          if (el.guess[id] === word[id])
-                            return "bg-[linear-gradient(170deg,_rgba(44,184,58,1)_0%,_rgba(3,83,53,1)_30%,_rgba(3,83,53,1)_80%,_rgba(42,129,50,1)_99%)]";
+                            const lettersSoFar = el.guess
+                              .slice(0, id + 1)
+                              .filter(
+                                (letter) => letter === el.guess[id],
+                              ).length;
 
-                          return "";
-                        })()
-                      )}
-                    >
-                      <span className={cn("text-white")}>{el.guess[id]}</span>
-                    </div>
-                  );
-                })}
-              </div>
-            );
-          }
-        })}
+                            if (
+                              word.includes(el.guess[id]) &&
+                              lettersSoFar <= letterCount &&
+                              el.guess[id] !== word[id]
+                            ) {
+                              return "bg-[linear-gradient(170deg,rgba(243,155,7,1)_0%,_rgba(234,107,18,1)_30%,_rgba(234,107,18,1)_67%,_rgba(243,155,7,1)_100%)]";
+                            }
+
+                            if (el.guess[id] === word[id])
+                              return "bg-[linear-gradient(170deg,_rgba(44,184,58,1)_0%,_rgba(3,83,53,1)_30%,_rgba(3,83,53,1)_80%,_rgba(42,129,50,1)_99%)]";
+
+                            return "";
+                          })(),
+                        )}
+                      >
+                        <span className={cn("text-white")}>{el.guess[id]}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            }
+          })}
+        </div>
       </div>
     </div>
   );

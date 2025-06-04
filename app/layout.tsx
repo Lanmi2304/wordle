@@ -1,16 +1,18 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Merriweather } from "next/font/google";
 import "./globals.css";
+import { TailwindIndicator } from "@/components/tailwind-indicator";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const merriWeather = Merriweather({
+  variable: "--font",
   subsets: ["latin"],
+  weight: "300",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+// const merriWeather = Merriweather({
+//   variable: "--font-",
+//   subsets: ["latin"],
+// });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -24,10 +26,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body className={`${merriWeather.variable} antialiased`}>
+        {children} <TailwindIndicator />
       </body>
     </html>
   );
