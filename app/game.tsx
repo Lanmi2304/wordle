@@ -112,7 +112,7 @@ export function Game() {
 
       <div className="">
         <p>Can you crack the word in six tries? 🤔</p>
-        <p>Give it a shot!</p>
+        <p>Give it a shot!🫵🏼</p>
         <p>Start typing!👨🏼‍💻</p>
       </div>
 
