@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@/utils/cn";
+import { words } from "@/utils/wordd-list";
 import { useEffect, useState } from "react";
 
 type RowInfo = {
@@ -8,8 +9,9 @@ type RowInfo = {
   guess: string[];
 };
 
+const randomIndex = Math.floor(Math.random() * (words.length + 1));
+
 export function Game() {
-  const word = "ninja";
   const [matrix, setMatrix] = useState<RowInfo[]>([
     { check: false, guess: [] },
     { check: false, guess: [] },
@@ -21,9 +23,14 @@ export function Game() {
   const [activeRow, setActiveRow] = useState(0);
   const [gameOver, setGameOver] = useState(false);
 
+  const word = words[randomIndex];
+  // Test
+  // const word = "truck";
+  console.log(word);
+
   const isCorrectHandler = () => {
     if (matrix[activeRow].guess.join("") === word) {
-      alert("You won!");
+      // alert("You won!");
       setGameOver(true);
       return;
     }
@@ -33,6 +40,10 @@ export function Game() {
     if (e.key === "Enter") {
       isCorrectHandler();
       if (matrix[activeRow].guess.length === 5) {
+        if (!words.includes(matrix[activeRow].guess.join(""))) {
+          alert("word doesnt exist");
+          return;
+        }
         setMatrix((prev) => {
           const newMatrix = [...prev];
           newMatrix[activeRow] = { ...newMatrix[activeRow], check: true };
@@ -77,10 +88,6 @@ export function Game() {
 
   return (
     <div className="flex flex-col gap-8 justify-center  items-center w-full">
-      {/* <h1>
-        Word: <span className="text-purple-300">{word}</span>
-      </h1> */}
-
       <div className="grid gap-2">
         {matrix.map((el, idx) => {
           {
@@ -91,32 +98,33 @@ export function Game() {
                     <div
                       key={id}
                       className={cn(
-                        "bg-white  border-2 flex uppercase text-2xl font-extrabold items-center justify-center text-black size-25",
+                        "rounded-xl bg-[linear-gradient(170deg,_rgba(17,17,17,1)_0%,_rgba(59,59,59,1)_30%,_rgba(59,59,59,1)_70%,_rgba(17,17,17,1)_100%)] shadow-[inset_0px_4px_0px_0px_rgba(255,_255,_255,_0.190)] flex uppercase text-2xl font-extrabold items-center justify-center size-25",
                         (() => {
                           if (!el.check) return "";
 
                           const letterCount =
                             word.split(el.guess[id]).length - 1;
-                          console.log(letterCount);
 
                           const lettersSoFar = el.guess
-                            .slice(0, 5)
+                            .slice(0, id + 1)
                             .filter((letter) => letter === el.guess[id]).length;
-
-                          if (el.guess[id] === word[id]) return "bg-green-400";
 
                           if (
                             word.includes(el.guess[id]) &&
                             lettersSoFar <= letterCount &&
                             el.guess[id] !== word[id]
                           ) {
-                            return "bg-amber-500";
+                            return "bg-[linear-gradient(170deg,rgba(243,155,7,1)_0%,_rgba(234,107,18,1)_30%,_rgba(234,107,18,1)_67%,_rgba(243,155,7,1)_100%)]";
                           }
+
+                          if (el.guess[id] === word[id])
+                            return "bg-[linear-gradient(170deg,_rgba(44,184,58,1)_0%,_rgba(3,83,53,1)_30%,_rgba(3,83,53,1)_80%,_rgba(42,129,50,1)_99%)]";
+
                           return "";
                         })()
                       )}
                     >
-                      <span className={cn("text-black")}>{el.guess[id]}</span>
+                      <span className={cn("text-white")}>{el.guess[id]}</span>
                     </div>
                   );
                 })}
