@@ -26,6 +26,7 @@ export function Game() {
 
   const [activeRow, setActiveRow] = useState(0);
   const [gameOver, setGameOver] = useState(false);
+  const [noWord, setNoWord] = useState<string | undefined>(undefined);
 
   const word = words[randomIndex];
   // Test
@@ -46,9 +47,10 @@ export function Game() {
       isCorrectHandler();
       if (matrix[activeRow].guess.length === 5) {
         if (!words.includes(matrix[activeRow].guess.join(""))) {
-          alert("word doesnt exist");
+          setNoWord("The Word doesnt exist!🫤");
           return;
         }
+        setNoWord(undefined);
         setMatrix((prev) => {
           const newMatrix = [...prev];
           newMatrix[activeRow] = { ...newMatrix[activeRow], check: true };
@@ -115,6 +117,8 @@ export function Game() {
         <p>Give it a shot!🫵🏼</p>
         <p>Start typing!👨🏼‍💻</p>
       </div>
+
+      {noWord && <p className="text-red-400">{noWord}</p>}
 
       <div
         className="relative flex w-full flex-col items-center justify-center gap-8"
