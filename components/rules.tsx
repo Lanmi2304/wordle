@@ -11,7 +11,7 @@ import {
 export function Rules() {
   return (
     <Dialog>
-      <DialogTrigger className="cursor-pointer">
+      <DialogTrigger className="z-40 cursor-pointer">
         <Info className="size-8 p-1" />
       </DialogTrigger>
       <DialogContent className="h-[80%] overflow-y-scroll">

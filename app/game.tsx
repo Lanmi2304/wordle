@@ -103,7 +103,7 @@ export function Game() {
 
   return (
     <div
-      className="flex flex-col gap-4"
+      className="relative z-10 flex flex-col gap-4"
       onClick={() => inputRef.current?.focus()}
     >
       <input
