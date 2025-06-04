@@ -102,17 +102,16 @@ export function Game() {
   }, []);
 
   return (
-    <div
-      className="relative z-10 flex flex-col gap-4"
-      onClick={() => inputRef.current?.focus()}
-    >
+    <div className="relative -top-10 flex flex-col gap-4 lg:top-0">
       <input
         ref={inputRef}
         type="text"
         inputMode="text"
         autoFocus
         className="pointer-events-none absolute opacity-0"
-        onKeyDown={(e) => handleKeyDown(e)}
+        onKeyDown={(e) => {
+          handleKeyDown(e);
+        }}
         onBlur={(e) => e.target.focus()}
       />
 
@@ -129,7 +128,12 @@ export function Game() {
         <p>Start typing!👨🏼‍💻</p>
       </div>
 
-      <div className="flex w-full flex-col items-center justify-center gap-8">
+      <div
+        className="flex w-full flex-col items-center justify-center gap-8"
+        onClick={() => {
+          inputRef.current?.focus();
+        }}
+      >
         <div className="grid gap-2">
           {matrix.map((el, idx) => {
             {
