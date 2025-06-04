@@ -3,7 +3,7 @@
 import { Rules } from "@/components/rules";
 import { cn } from "@/utils/cn";
 import { words } from "@/utils/wordd-list";
-import { useEffect, useState } from "react";
+import { KeyboardEvent, useEffect, useRef, useState } from "react";
 
 type RowInfo = {
   check: boolean;
@@ -13,6 +13,8 @@ type RowInfo = {
 const randomIndex = Math.floor(Math.random() * (words.length + 1));
 
 export function Game() {
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const [matrix, setMatrix] = useState<RowInfo[]>([
     { check: false, guess: [] },
     { check: false, guess: [] },
@@ -37,7 +39,9 @@ export function Game() {
     }
   };
 
-  const handleKeyDown = (e: KeyboardEvent) => {
+  const handleKeyDown = (
+    e: globalThis.KeyboardEvent | KeyboardEvent<HTMLInputElement>,
+  ) => {
     if (e.key === "Enter") {
       isCorrectHandler();
       if (matrix[activeRow].guess.length === 5) {
@@ -87,14 +91,31 @@ export function Game() {
 
   useEffect(() => {
     if (window.document && !gameOver) {
-      document.addEventListener("keydown", handleKeyDown);
+      document.addEventListener("keydown", handleKeyDown as EventListener);
     }
 
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [activeRow, matrix]);
 
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
+
   return (
-    <div className="flex flex-col gap-4">
+    <div
+      className="flex flex-col gap-4"
+      onClick={() => inputRef.current?.focus()}
+    >
+      <input
+        ref={inputRef}
+        type="text"
+        inputMode="text"
+        autoFocus
+        className="pointer-events-none absolute opacity-0"
+        onKeyDown={(e) => handleKeyDown(e)}
+        onBlur={(e) => e.target.focus()}
+      />
+
       <div className="relative flex w-full items-center justify-between">
         <h1 className="flex items-center gap-2 text-left text-6xl font-extralight">
           Wordle <span className="text-3xl">🧩📘</span>{" "}
