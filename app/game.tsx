@@ -32,6 +32,7 @@ export function Game() {
 
   const [dialogOpen, setDialogOpen] = useState(false);
 
+  // Game init - BUG play again button!
   const initializeGame = useCallback(() => {
     const newRandomIndex = Math.floor(Math.random() * words.length + 1);
     setWord(words[newRandomIndex]);
@@ -43,22 +44,26 @@ export function Game() {
     setDialogOpen(false);
   }, []);
 
+  // Init game on mount
   useEffect(() => {
     initializeGame();
   }, [initializeGame]);
 
+  // Check for win
   const handleWinCondition = useCallback(() => {
     setOutcome("win");
     setDialogOpen(true);
     setGameOver(true);
   }, []);
 
+  // Check for lose
   const handleLoseCondition = useCallback(() => {
     setOutcome("lose");
     setDialogOpen(true);
     setGameOver(true);
   }, []);
 
+  // Global keydown handler
   const handleKeyDown = useCallback(
     (e: globalThis.KeyboardEvent | KeyboardEvent<HTMLInputElement>) => {
       if (gameOver) return;
@@ -148,6 +153,7 @@ export function Game() {
     };
   }, [handleKeyDown, gameOver]);
 
+  // Mobile purpose !
   useEffect(() => {
     inputRef.current?.focus();
   }, [activeRow, matrix, gameOver]);
@@ -159,6 +165,7 @@ export function Game() {
 
   return (
     <>
+      {/* TODO: FIX BUG  */}
       <OutcomeDialog
         dialogOpen={dialogOpen}
         setDialogOpen={setDialogOpen}
@@ -181,6 +188,7 @@ export function Game() {
           <p>Start typing!👨🏼‍💻</p>
         </div>
 
+        {/* TODO: Better solution, maybe tooltip on each row */}
         {noWord && <p className="text-red-400">{noWord}</p>}
 
         <div
@@ -200,11 +208,13 @@ export function Game() {
             }}
           />
 
+          {/*  Board render */}
           <div className="grid gap-2">
             {matrix.map((el, idx) => {
               return (
                 <div key={idx} className="flex gap-2">
                   {Array.from({ length: 5 }, (_, id) => {
+                    // Each letter
                     const guessedLetter = el.guess[id];
                     const targetLetter = word[id];
                     const isChecked = el.check;
@@ -212,9 +222,11 @@ export function Game() {
                     let bgColorClass = "";
                     if (isChecked) {
                       if (guessedLetter === targetLetter) {
+                        // Green
                         bgColorClass =
                           "bg-[linear-gradient(170deg,_rgba(44,184,58,1)_0%,_rgba(3,83,53,1)_30%,_rgba(3,83,53,1)_80%,_rgba(42,129,50,1)_99%)]";
                       } else if (word.includes(guessedLetter)) {
+                        // Yellow
                         const wordLetterCount =
                           word.split(guessedLetter).length - 1;
                         const guessedLetterCountInRow = el.guess
@@ -228,6 +240,7 @@ export function Game() {
                       }
 
                       if (!bgColorClass) {
+                        // Default
                         bgColorClass =
                           "bg-[linear-gradient(170deg,_rgba(17,17,17,1)_0%,_rgba(59,59,59,1)_30%,_rgba(59,59,59,1)_70%,_rgba(17,17,17,1)_100%)] shadow-[inset_0px_4px_0px_0px_rgba(255,_255,_255,_0.190)]";
                       }
