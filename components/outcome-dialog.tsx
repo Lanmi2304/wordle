@@ -24,7 +24,7 @@ export function OutcomeDialog({
   setDialogOpen,
   outcome,
   word,
-  initializeGame,
+  //   initializeGame,
 }: DialogProps) {
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
@@ -54,7 +54,8 @@ export function OutcomeDialog({
         </DialogHeader>
         <Button
           className="mx-auto w-40 cursor-pointer rounded-md bg-[#1b1b1b] py-2 hover:bg-[#1b1b1b]/80"
-          onClick={() => initializeGame()}
+          // TODO: FIX THIS
+          //   onClick={() => initializeGame()}
         >
           Play again
         </Button>

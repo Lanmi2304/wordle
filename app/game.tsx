@@ -3,7 +3,7 @@
 import { OutcomeDialog } from "@/components/outcome-dialog";
 import { Rules } from "@/components/rules";
 import { cn } from "@/utils/cn";
-import { words } from "@/utils/wordd-list";
+import { words } from "@/utils/word-list";
 import { KeyboardEvent, useEffect, useRef, useState, useCallback } from "react";
 
 type RowInfo = {
@@ -253,7 +253,7 @@ export function Game() {
                       <div
                         key={id}
                         className={cn(
-                          "flex size-12 items-center justify-center rounded-xl text-2xl font-extrabold uppercase lg:size-18",
+                          "flex size-1 items-center justify-center rounded-xl text-2xl font-extrabold uppercase lg:size-18",
                           bgColorClass,
                         )}
                       >
