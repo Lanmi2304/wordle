@@ -253,7 +253,7 @@ export function Game() {
                       <div
                         key={id}
                         className={cn(
-                          "flex size-1 items-center justify-center rounded-xl text-2xl font-extrabold uppercase lg:size-18",
+                          "flex size-14 items-center justify-center rounded-xl text-2xl font-extrabold uppercase lg:size-18",
                           bgColorClass,
                         )}
                       >
