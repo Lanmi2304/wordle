@@ -175,13 +175,13 @@ export function Game() {
 
       <div className="flex flex-col gap-4">
         <div className="relative flex w-full items-center justify-between">
-          <h1 className="flex items-center gap-2 text-left text-6xl font-extralight">
+          <h1 className="flex items-center gap-2 text-left text-6xl font-extralight text-white">
             Wordle <span className="text-3xl">🧩📘</span>{" "}
           </h1>
           <Rules />
         </div>
 
-        <div className="">
+        <div className="text-white">
           <p>Can you crack the word in six tries? 🤔</p>
           <p>Give it a shot!🫵🏼</p>
           <p>Start typing!👨🏼‍💻</p>

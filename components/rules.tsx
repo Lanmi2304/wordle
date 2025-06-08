@@ -16,7 +16,9 @@ export function Rules() {
       </DialogTrigger>
       <DialogContent className="h-[80%] overflow-y-scroll">
         <DialogHeader>
-          <DialogTitle className="text-left">🧩 Wordle Rules</DialogTitle>
+          <DialogTitle className="text-left text-white">
+            🧩 Wordle Rules
+          </DialogTitle>
           <DialogDescription className="text-left text-gray-400">
             Wordle is a word-guessing game where you have six attempts to find a
             hidden five-letter English word. After each guess, the game gives
@@ -26,7 +28,7 @@ export function Rules() {
         </DialogHeader>
 
         <div className="flex flex-col gap-2">
-          <h3 className="text-lg font-semibold">
+          <h3 className="text-lg font-semibold text-white">
             1. Guess the Word in 6 Tries
           </h3>
           <p className="text-gray-400">
@@ -35,7 +37,7 @@ export function Rules() {
         </div>
 
         <div className="flex flex-col gap-2">
-          <h3 className="text-lg font-semibold">
+          <h3 className="text-lg font-semibold text-white">
             2. Valid 5-Letter Words Only
           </h3>
           <p className="text-gray-400">
@@ -44,7 +46,7 @@ export function Rules() {
         </div>
 
         <div className="flex flex-col gap-2">
-          <h3 className="text-lg font-semibold">
+          <h3 className="text-lg font-semibold text-white">
             3. Color Feedback After Each Guess
           </h3>
           <p className="text-gray-400">
@@ -65,7 +67,7 @@ export function Rules() {
         </div>
 
         <div className="flex flex-col gap-2">
-          <h3 className="text-lg font-semibold">
+          <h3 className="text-lg font-semibold text-white">
             4. Letters Can Appear More Than Once
           </h3>
           <p className="text-gray-400">
@@ -74,7 +76,9 @@ export function Rules() {
         </div>
 
         <div className="flex flex-col gap-2">
-          <h3 className="text-lg font-semibold">5. Use Clues Wisely</h3>
+          <h3 className="text-lg font-semibold text-white">
+            5. Use Clues Wisely
+          </h3>
           <p className="text-gray-400">
             Use the feedback from each guess to narrow down possibilities and
             find the correct word within 6 tries.
