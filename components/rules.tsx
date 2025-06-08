@@ -12,7 +12,7 @@ export function Rules() {
   return (
     <Dialog>
       <DialogTrigger className="z-40 cursor-pointer">
-        <Info className="size-8 p-1" />
+        <Info className="size-8 p-1 text-white" />
       </DialogTrigger>
       <DialogContent className="h-[80%] overflow-y-scroll">
         <DialogHeader>
