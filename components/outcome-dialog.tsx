@@ -53,7 +53,7 @@ export function OutcomeDialog({
           </DialogDescription>
         </DialogHeader>
         <Button
-          className="mx-auto w-40 cursor-pointer rounded-md bg-[#1b1b1b] py-2 hover:bg-[#1b1b1b]/80"
+          className="mx-auto w-40 cursor-pointer rounded-md bg-[#1b1b1b] py-2 text-white hover:bg-[#1b1b1b]/80"
           onClick={() => initializeGame()}
         >
           Play again
