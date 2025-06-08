@@ -173,7 +173,7 @@ export function Game() {
         outcome={outcome}
       />
 
-      <div className="relative -top-10 flex flex-col gap-4 lg:top-0">
+      <div className="flex flex-col gap-4">
         <div className="relative flex w-full items-center justify-between">
           <h1 className="flex items-center gap-2 text-left text-6xl font-extralight">
             Wordle <span className="text-3xl">🧩📘</span>{" "}

@@ -21,7 +21,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${merriWeather.variable} overflow-hidden antialiased`}>
+      <body
+        className={`${merriWeather.variable} overflow-hidden bg-[#0E0E0E] antialiased`}
+      >
         {children} <TailwindIndicator />
       </body>
     </html>
