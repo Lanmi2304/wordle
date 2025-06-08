@@ -2,22 +2,26 @@
 
 import { OutcomeDialog } from "@/components/outcome-dialog";
 import { Rules } from "@/components/rules";
+import { checkGuess } from "@/utils/check-guess";
 import { cn } from "@/utils/cn";
 import { words } from "@/utils/word-list";
 import { KeyboardEvent, useEffect, useRef, useState, useCallback } from "react";
 
+export type LetterColor = "green" | "yellow" | "gray" | null;
+
 type RowInfo = {
   check: boolean;
   guess: string[];
+  colors: LetterColor[];
 };
 
 const initialInputs: RowInfo[] = [
-  { check: false, guess: [] },
-  { check: false, guess: [] },
-  { check: false, guess: [] },
-  { check: false, guess: [] },
-  { check: false, guess: [] },
-  { check: false, guess: [] },
+  { check: false, guess: [], colors: Array(5).fill(null) },
+  { check: false, guess: [], colors: Array(5).fill(null) },
+  { check: false, guess: [], colors: Array(5).fill(null) },
+  { check: false, guess: [], colors: Array(5).fill(null) },
+  { check: false, guess: [], colors: Array(5).fill(null) },
+  { check: false, guess: [], colors: Array(5).fill(null) },
 ];
 
 export function Game() {
@@ -32,10 +36,9 @@ export function Game() {
 
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  // Game init - BUG play again button!
   const initializeGame = useCallback(() => {
     const newRandomIndex = Math.floor(Math.random() * words.length);
-    // setWord(words[newRandomIndex]);
+    setWord(words[newRandomIndex]);
     setWord("green");
     setMatrix(JSON.parse(JSON.stringify(initialInputs))); // Deep copy to avoid reference issues
     setActiveRow(0);
@@ -84,21 +87,22 @@ export function Game() {
 
         setNoWord(undefined);
 
-        if (currentGuess === word) {
-          setMatrix((prev) => {
-            const newMatrix = [...prev];
-            newMatrix[activeRow] = { ...newMatrix[activeRow], check: true };
-            return newMatrix;
-          });
-          handleWinCondition();
-          return;
-        }
+        const colors = checkGuess(currentGuess, word);
 
         setMatrix((prev) => {
           const newMatrix = [...prev];
-          newMatrix[activeRow] = { ...newMatrix[activeRow], check: true };
+          newMatrix[activeRow] = {
+            ...newMatrix[activeRow],
+            check: true,
+            colors: colors,
+          };
           return newMatrix;
         });
+
+        if (currentGuess === word) {
+          handleWinCondition();
+          return;
+        }
 
         if (activeRow < initialInputs.length - 1) {
           setActiveRow((prev) => prev + 1);
@@ -112,8 +116,10 @@ export function Game() {
         setMatrix((prev) => {
           const newMatrix = [...prev];
           newMatrix[activeRow] = {
+            ...newMatrix[activeRow],
             check: false,
             guess: newMatrix[activeRow].guess.slice(0, -1),
+            colors: Array(5).fill(null),
           };
           return newMatrix;
         });
@@ -125,8 +131,10 @@ export function Game() {
         setMatrix((prev) => {
           const newMatrix = [...prev];
           newMatrix[activeRow] = {
+            ...newMatrix[activeRow],
             check: false,
             guess: [...newMatrix[activeRow].guess, e.key.toLowerCase()],
+            colors: Array(5).fill(null),
           };
           return newMatrix;
         });
@@ -208,7 +216,7 @@ export function Game() {
             }}
           />
 
-          {/*  Board render */}
+          {/*  Board render */}
           <div className="grid gap-2">
             {matrix.map((el, idx) => {
               return (
@@ -216,34 +224,28 @@ export function Game() {
                   {Array.from({ length: 5 }, (_, id) => {
                     // Each letter
                     const guessedLetter = el.guess[id];
-                    const targetLetter = word[id];
                     const isChecked = el.check;
+                    const letterColor = el.colors[id];
 
                     let bgColorClass = "";
                     if (isChecked) {
-                      if (guessedLetter === targetLetter) {
-                        // Green
-                        bgColorClass =
-                          "bg-[linear-gradient(170deg,_rgba(44,184,58,1)_0%,_rgba(3,83,53,1)_30%,_rgba(3,83,53,1)_80%,_rgba(42,129,50,1)_99%)]";
-                      } else if (word.includes(guessedLetter)) {
-                        // Yellow
-                        const wordLetterCount =
-                          word.split(guessedLetter).length - 1;
-
-                        const guessedLetterCountInRow = el.guess.filter(
-                          (letter) => letter === guessedLetter,
-                        ).length;
-
-                        if (guessedLetterCountInRow <= wordLetterCount) {
+                      switch (letterColor) {
+                        case "green":
+                          bgColorClass =
+                            "bg-[linear-gradient(170deg,_rgba(44,184,58,1)_0%,_rgba(3,83,53,1)_30%,_rgba(3,83,53,1)_80%,_rgba(42,129,50,1)_99%)]";
+                          break;
+                        case "yellow":
                           bgColorClass =
                             "bg-[linear-gradient(170deg,rgba(243,155,7,1)_0%,_rgba(234,107,18,1)_30%,_rgba(234,107,18,1)_67%,_rgba(243,155,7,1)_100%)]";
-                        }
-                      }
-
-                      if (!bgColorClass) {
-                        // Default
-                        bgColorClass =
-                          "bg-[linear-gradient(170deg,_rgba(17,17,17,1)_0%,_rgba(59,59,59,1)_30%,_rgba(59,59,59,1)_70%,_rgba(17,17,17,1)_100%)] shadow-[inset_0px_4px_0px_0px_rgba(255,_255,_255,_0.190)]";
+                          break;
+                        case "gray":
+                          bgColorClass =
+                            "bg-[linear-gradient(170deg,_rgba(17,17,17,1)_0%,_rgba(59,59,59,1)_30%,_rgba(59,59,59,1)_70%,_rgba(17,17,17,1)_100%)] shadow-[inset_0px_4px_0px_0px_rgba(255,_255,_255,_0.190)]";
+                          break;
+                        default:
+                          bgColorClass =
+                            "shadow-[inset_0px_3px_0px_0px_rgba(0,_0,_0,_1)] bg-[#1b1b1b]";
+                          break;
                       }
                     } else {
                       bgColorClass =
