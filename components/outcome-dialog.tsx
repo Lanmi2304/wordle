@@ -31,7 +31,7 @@ export function OutcomeDialog({
       <DialogTrigger className="hidden"></DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-left">
+          <DialogTitle className="text-left text-white">
             {outcome === "win" ? "Congrats!🥳" : "Game Over! 😔"}
           </DialogTitle>
           <DialogDescription className="text-left text-gray-400">
