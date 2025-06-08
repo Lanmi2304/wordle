@@ -1,6 +1,4 @@
 export const words = [
-  "eenee",
-  "eeeee",
   "about",
   "other",
   "which",
