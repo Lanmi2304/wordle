@@ -39,7 +39,6 @@ export function Game() {
   const initializeGame = useCallback(() => {
     const newRandomIndex = Math.floor(Math.random() * words.length);
     setWord(words[newRandomIndex]);
-    setWord("green");
     setMatrix(JSON.parse(JSON.stringify(initialInputs))); // Deep copy to avoid reference issues
     setActiveRow(0);
     setGameOver(false);
