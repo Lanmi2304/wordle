@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Merriweather } from "next/font/google";
 import "./globals.css";
 import { TailwindIndicator } from "@/components/tailwind-indicator";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const merriWeather = Merriweather({
   variable: "--font",
@@ -20,11 +21,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${merriWeather.variable} overflow-hidden bg-[#0E0E0E] antialiased`}
       >
-        {children} <TailwindIndicator />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          disableTransitionOnChange
+        >
+          {children}
+          <TailwindIndicator />
+        </ThemeProvider>
       </body>
     </html>
   );
