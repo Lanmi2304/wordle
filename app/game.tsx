@@ -35,7 +35,8 @@ export function Game() {
   // Game init - BUG play again button!
   const initializeGame = useCallback(() => {
     const newRandomIndex = Math.floor(Math.random() * words.length);
-    setWord(words[newRandomIndex]);
+    // setWord(words[newRandomIndex]);
+    setWord("green");
     setMatrix(JSON.parse(JSON.stringify(initialInputs))); // Deep copy to avoid reference issues
     setActiveRow(0);
     setGameOver(false);
@@ -228,9 +229,10 @@ export function Game() {
                         // Yellow
                         const wordLetterCount =
                           word.split(guessedLetter).length - 1;
-                        const guessedLetterCountInRow = el.guess
-                          .slice(0, id + 1)
-                          .filter((letter) => letter === guessedLetter).length;
+
+                        const guessedLetterCountInRow = el.guess.filter(
+                          (letter) => letter === guessedLetter,
+                        ).length;
 
                         if (guessedLetterCountInRow <= wordLetterCount) {
                           bgColorClass =
