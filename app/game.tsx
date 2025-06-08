@@ -34,7 +34,7 @@ export function Game() {
 
   // Game init - BUG play again button!
   const initializeGame = useCallback(() => {
-    const newRandomIndex = Math.floor(Math.random() * words.length + 1);
+    const newRandomIndex = Math.floor(Math.random() * words.length);
     setWord(words[newRandomIndex]);
     setMatrix(JSON.parse(JSON.stringify(initialInputs))); // Deep copy to avoid reference issues
     setActiveRow(0);
@@ -52,14 +52,14 @@ export function Game() {
   // Check for win
   const handleWinCondition = useCallback(() => {
     setOutcome("win");
-    setDialogOpen(true);
+    setTimeout(() => setDialogOpen(true), 300);
     setGameOver(true);
   }, []);
 
   // Check for lose
   const handleLoseCondition = useCallback(() => {
     setOutcome("lose");
-    setDialogOpen(true);
+    setTimeout(() => setDialogOpen(true), 300);
     setGameOver(true);
   }, []);
 
@@ -165,7 +165,6 @@ export function Game() {
 
   return (
     <>
-      {/* TODO: FIX BUG  */}
       <OutcomeDialog
         dialogOpen={dialogOpen}
         setDialogOpen={setDialogOpen}
