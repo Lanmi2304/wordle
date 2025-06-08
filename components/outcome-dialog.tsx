@@ -32,7 +32,7 @@ export function OutcomeDialog({
       <DialogContent>
         <DialogHeader>
           <DialogTitle className="text-left text-white">
-            {outcome === "win" ? "Congrats!🥳" : "Game Over! 😔"}
+            {outcome === "win" ? "Congrats!🥳" : "Game Over!😔"}
           </DialogTitle>
           <DialogDescription className="text-left text-gray-400">
             {outcome === "win" ? (
